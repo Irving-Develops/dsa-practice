@@ -1,46 +1,47 @@
 const anagrams = (s1, s2) => {
     // todo
-    let obj1 = {}
-    let obj2 = {}
+    if (s1.length != s2.length) return false
 
-    let count = 0
-
-    let res = true;
-
-
-    if (s1.length !== s2.length) return false
+    const obj1 = {}
+    const obj2 = {}
 
     for (let i = 0; i < s1.length; i++) {
-        let curr = s1[i]
+        let curr1 = s1[i]
         let curr2 = s2[i]
-
-        obj1[curr] ? obj1[curr] += 1 : obj1[curr] = count + 1
-        obj2[curr2] ? obj2[curr2] += 1 : obj2[curr2] = count + 1
+        obj1[curr1] ? obj1[curr1] += 1 : obj1[curr1] = 1
+        obj2[curr2] ? obj2[curr2] += 1 : obj2[curr2] = 1
     }
 
-    console.log("here")
-    for (let char in obj1) {
-        console.log(char, '<=====')
-        if (!obj2[char]) return false
-        else {
-            obj2[char] -= 1
+
+    for (let key in obj1) {
+        let count = 0;
+        if (obj2[key]) {
+            count = obj1[key]
+            while (count > 0) {
+                count -= 1
+                obj1[key] -= 1
+                obj2[key] -= 1
+            }
+        } else {
+            return false
         }
     }
-    console.log("here")
     console.log(obj1, obj2)
 
-
-    for (let char in obj2) {
-        console.log(obj2[char])
-        if (obj2[char] !== 0) return false
+    for (let key in obj2) {
+        if (obj2[key] !== 0) return false
     }
-    console.log("here")
 
+    for (let key in obj1) {
+        if (obj1[key] !== 0) return false
+    }
 
     return true
 
 };
 
+console.log(anagrams('paper', 'reapa'))
 
-console.log(anagrams('monkeyswrite', 'newyorktimes'))
-
+module.exports = {
+    anagrams,
+};
